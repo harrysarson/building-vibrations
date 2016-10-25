@@ -17,6 +17,8 @@ plottype=1;
 % Set value to be positive to produce plots of the modeshapes
 modeshape_visualisation = 0;
 
+totalFloors = 3;
+
 m = 1.83; % mass of one floor
 L = 0.2; % length
 N = 3; % number of degrees of freedom
@@ -26,8 +28,65 @@ d = 0.001; % thickness
 I = b*d*d*d/12; % second moment of area
 k = (24*E*I)/(L*L*L); % static stiffness for each floor
 
-M = m*eye(N); % create the mass matrix
-K = k*[2 -1 0;-1 2 -1;0 -1 1]; % create the stiffness matrix
+% create Mass matrix
+M = m*eye(totalFloors * 2);
+
+for i = 1:totalFloors do
+  M(totalFloors + i, totalFloors + i) = M(totalFloors + i, totalFloors + i) * 0.1;
+end
+
+% create Damping matrix
+
+floorDamping = 0 * 2;
+absorberDamping = 0 * [ 0.5, 0.5, 0.5 ];
+
+Lambda = Zeros(totalFloors * 2);
+
+for i = 1:totalFloors do
+  
+  Lambda(totalFloors + i, i) = -absorberDamping(i);	
+  Lambda(i, i) = floorDamping + absorberDamping(i);	
+  Lambda(totalFloors + i, totalFloors + i) = absorberDamping(i);
+
+  Lambda(i, totalFloors + i) = -floorDamping;
+
+
+end
+
+for i = 1:totalFloors-1 do
+  	
+  Lambda(i, i) = Lambda(i, i) + floorDamping;
+
+  Lambda(i, 1+i) = Lambda(1+i, i) = -floorDamping;
+
+end
+
+% create the stiffness matrix
+
+
+floorStiffness = 2;
+absorberStiffness = [ 0.5, 0.5, 0.5 ];
+
+K = Zeros(totalFloors * 2);
+
+for i = 1:totalFloors do
+  
+  K(totalFloors + i, i) = -absorberStiffness(i);	
+  K(i, i) = floorStiffness + absorberStiffness(i);	
+  K(totalFloors + i, totalFloors + i) = absorberStiffness(i);
+
+  K(i, totalFloors + i) = -floorStiffness;
+
+
+end
+
+for i = 1:totalFloors-1 do
+  	
+  K(i, i) = K(i, i) + floorStiffness;
+
+  K(i, 1+i) = K(1+i, i) = -floorStiffness;
+
+end
 
 % To include vibration absorbers, you will need to modify
 %   the mass and stiffness matrices (above)
