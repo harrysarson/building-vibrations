@@ -208,7 +208,7 @@ if (sweep == 1)
           Ampl(i, j, k) = X(k) * conj(X(k));
 
           if Ampl(i, j, k) > maxAmpl(1,k)
-            maxAmpl(k, :) = [X(k), absorberDamping, w];
+            maxAmpl(k, :) = [Ampl(i, j, k), absorberDamping, w];
           end
         end
 
@@ -216,15 +216,21 @@ if (sweep == 1)
     end
     
     
-    surf(omegaRange, lambdaRange, Ampl(:,:,1));
-    title('floor');
-    xlabel('angular frequency');
-    ylabel('lambda');
-    figure;
+    figure();
+    
     surf(omegaRange, lambdaRange, Ampl(:,:,2));
     title('absorber');
     xlabel('angular frequency');
     ylabel('lambda');
-
+    shading interp;
+    
+    figure();
+    
+    surf(omegaRange, lambdaRange, Ampl(:,:,1));
+    title('floor');
+    xlabel('angular frequency');
+    ylabel('lambda');
+    shading interp;
+    
     maxAmpl
 end
