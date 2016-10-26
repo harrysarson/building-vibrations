@@ -2,15 +2,16 @@
 
 % Requires mPrime, kPrime, lambdaPrime,
 %          absorberMass, absorberStiffness
+%          floor, mode,
 %          lambdaRange, omegaRange           to be defined
 
 M = [
-  mPrime, 0;
+  mPrime(floor, mode), 0;
   0, absorberMass;
 ];
 
 K = [
-  kPrime + absorberStiffness, -absorberStiffness;
+  kPrime(floor, mode) + absorberStiffness, -absorberStiffness;
   -absorberStiffness, absorberStiffness;
 ];
 
@@ -26,7 +27,7 @@ for i = size(lambdaRange) do
   absorberDamping = lambdaRange(i);
 
   Lambda = [ 
-    lambdaPrime + absorberDamping, -absorberDamping;
+    lambdaPrime(floor, mode) + absorberDamping, -absorberDamping;
     -absorberDamping, absorberDamping;
   ];
 
