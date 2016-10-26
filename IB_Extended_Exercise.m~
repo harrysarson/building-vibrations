@@ -167,9 +167,9 @@ if (sweep == 1)
     mode = 1;
     absorberMass = 0.1;
     absorberStiffness = absorberMass * freqs(mode)^2;
-    F=1,0;
-    lambdaRange = linspace(0.1,5,300);
-    omegaRange = linspace(15,35,200);
+    
+    lambdaRange = linspace(0.1,1.1,10);
+    omegaRange = linspace(2.5,4.5,20);
     
     M = [
       mPrime(floor,mode), 0;
@@ -197,34 +197,30 @@ if (sweep == 1)
         -absorberDamping, absorberDamping;
       ];
 
-      for j = 1:length(omegaRange)
+      for j = 1:length(omegaRange) do
 
-        w = omegaRange(j);
+        w = omegaRange(i);
 
         X = inv(-w^2 * M + 1i * w * Lambda + K) * F;
 
-        for k = 1:2
+        for k = 1:2 do
 
-          Ampl(i, j, k) = X(k) * conj(X(k));
+          Ampl(i, j, k) = X(k);
 
-          if Ampl(i, j, k) > maxAmpl(1,k)
-            maxAmpl(k, :) = [X(k), absorberDamping, w];
+          if X(k) > maxAmpl(1,k)
+            maxAmpl(:, k) = [X(k), absorberDamping, w];
           end
         end
 
       end
     end
-    
-    
-    surf(omegaRange, lambdaRange, Ampl(:,:,1));
+
+
+    surf(lambdaRange, omegaRange, Ampl(:,:,1));
     title('floor');
-    xlabel('angular frequency');
-    ylabel('lambda');
     figure;
-    surf(omegaRange, lambdaRange, Ampl(:,:,2));
+    surf(lambdaRange, omegaRange, Ampl(:,:,2));
     title('absorber');
-    xlabel('angular frequency');
-    ylabel('lambda');
 
     maxAmpl
 end
