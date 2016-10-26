@@ -15,8 +15,8 @@ K = [
 ];
 
 maxAmpl = [
-  0, NaN;
-  0, NaN;
+  0, NaN, NaN;
+  0, NaN, NaN;
 ];
 
 Ampl = zeros(size(lambdaRange), size(omegaRange), 2);
@@ -41,7 +41,7 @@ for i = size(lambdaRange) do
       Ampl(i, j, k) = X(k);
 
       if X(k) > maxAmpl(1,k)
-        maxAmpl(:, k) = [X(k), w];
+        maxAmpl(:, k) = [X(k), absorberDamping, w];
       
     end
 
