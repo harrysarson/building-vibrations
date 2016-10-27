@@ -153,7 +153,7 @@ if (findconversions == 1)
     mPrime
     kPrime
 end
-lambdaPrime = 0.5 + zeros(N,N);
+lambdaPrime = 2 + zeros(N,N);
 
 
 sweep = 1;
@@ -167,9 +167,11 @@ if (sweep == 1)
     mode = 1;
     absorberMass = 0.1;
     absorberStiffness = absorberMass * freqs(mode)^2;
-    
-    lambdaRange = linspace(0.1,1.1,10);
-    omegaRange = linspace(2.5,4.5,20);
+    F=[1;0];
+%     lambdaRange = linspace(0.1,5,300);
+%     omegaRange = linspace(15,35,200);
+    lambdaRange = logspace(log10(0.001),log10(100),500);
+    omegaRange = logspace(log10(15),log10(27),500);
     
     M = [
       mPrime(floor,mode), 0;
@@ -187,7 +189,8 @@ if (sweep == 1)
     ];
 
     Ampl = zeros(length(lambdaRange), length(omegaRange), 2);
-
+    maxAmpls = zeros(length(lambdaRange), 2);
+    
     for i = 1:length(lambdaRange)
 
       absorberDamping = lambdaRange(i);
@@ -197,30 +200,50 @@ if (sweep == 1)
         -absorberDamping, absorberDamping;
       ];
 
-      for j = 1:length(omegaRange) do
+      for j = 1:length(omegaRange)
 
-        w = omegaRange(i);
+        w = omegaRange(j);
 
         X = inv(-w^2 * M + 1i * w * Lambda + K) * F;
+        
+        for k = 1:2
+            
+          Ampl(i, j, k) = X(k) * conj(X(k));
 
-        for k = 1:2 do
-
-          Ampl(i, j, k) = X(k);
-
-          if X(k) > maxAmpl(1,k)
-            maxAmpl(:, k) = [X(k), absorberDamping, w];
+          if Ampl(i, j, k) > maxAmpl(1,k)
+            maxAmpl(k, :) = [Ampl(i, j, k), absorberDamping, w];
+          end
+          if Ampl(i, j, k) > maxAmpls(i, 1)
+              maxAmpls(i, :) = [Ampl(i, j, k), w];
           end
         end
 
       end
     end
-
-
-    surf(lambdaRange, omegaRange, Ampl(:,:,1));
-    title('floor');
-    figure;
-    surf(lambdaRange, omegaRange, Ampl(:,:,2));
+    
+    
+    figure();
+    
+    surf(omegaRange, log10(lambdaRange), log10(Ampl(:,:,2)));
     title('absorber');
-
+    xlabel('angular frequency');
+    ylabel('lambda');
+    shading interp;
+    
+    figure();
+    
+    surf(omegaRange, log10(lambdaRange), log10(Ampl(:,:,1)));
+    title('floor');
+    xlabel('angular frequency');
+    ylabel('lambda');
+    shading interp;
+    
     maxAmpl
+    
+    figure();
+    hold on;
+    plot(log10(lambdaRange), log10(maxAmpls(:, 1)), 'DisplayName', 'Max Amplitude');
+    plot(log10(lambdaRange), log10(maxAmpls(:, 2)), 'DisplayName', 'Frequency');
+    title('Max amplitudes of floor');
+    xlabel('lambda'));
 end

@@ -170,7 +170,7 @@ if (sweep == 1)
     F=[1;0];
 %     lambdaRange = linspace(0.1,5,300);
 %     omegaRange = linspace(15,35,200);
-    lambdaRange = logspace(log10(0.001),log10(5),500);
+    lambdaRange = logspace(log10(0.001),log10(100),500);
     omegaRange = logspace(log10(15),log10(27),500);
     
     M = [
@@ -189,7 +189,8 @@ if (sweep == 1)
     ];
 
     Ampl = zeros(length(lambdaRange), length(omegaRange), 2);
-
+    maxAmpls = zeros(length(lambdaRange), 2);
+    
     for i = 1:length(lambdaRange)
 
       absorberDamping = lambdaRange(i);
@@ -204,17 +205,21 @@ if (sweep == 1)
         w = omegaRange(j);
 
         X = inv(-w^2 * M + 1i * w * Lambda + K) * F;
-
+        
         for k = 1:2
-
+            
           Ampl(i, j, k) = X(k) * conj(X(k));
 
           if Ampl(i, j, k) > maxAmpl(1,k)
             maxAmpl(k, :) = [Ampl(i, j, k), absorberDamping, w];
           end
+          if Ampl(i, j, k) > maxAmpls(i, 1)
+              maxAmpls(i, :) = [Ampl(i, j, k), w];
+          end
         end
 
       end
+      maxAmpls(i, 1) = max(Ampl(i,:,1));
     end
     
     
@@ -235,4 +240,23 @@ if (sweep == 1)
     shading interp;
     
     maxAmpl
+    
+    figure();
+    plot(log10(lambdaRange), log10(maxAmpls(:, 1)), 'DisplayName', 'Max Amplitude');
+    title('Max amplitudes of floor');
+    xlabel('log10(lambda)');
+    ylabel('log10(amplitude)');
+    
+    figure();
+    plot(log10(lambdaRange), (maxAmpls(:, 2)), 'DisplayName', 'Frequency');
+    title('Frequencies at max amplitudes of floor');
+    xlabel('log10(lambda)');
+    ylabel('frequency');
+    
+    maxAmpls(:,1) = max(Ampl(:,:,1));
+    figure();
+    plot(log10(lambdaRange), log10(maxAmpls(:, 1)), 'DisplayName', 'Max Amplitude');
+    title('Max amplitudes of floor');
+    xlabel('log10(lambda)');
+    ylabel('log10(amplitude)');
 end
