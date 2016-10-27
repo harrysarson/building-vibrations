@@ -153,7 +153,7 @@ if (findconversions == 1)
     mPrime
     kPrime
 end
-lambdaPrime = 0.5 + zeros(N,N);
+lambdaPrime = 2 + zeros(N,N);
 
 
 sweep = 1;
@@ -167,9 +167,11 @@ if (sweep == 1)
     mode = 1;
     absorberMass = 0.1;
     absorberStiffness = absorberMass * freqs(mode)^2;
-    F=1,0;
-    lambdaRange = linspace(0.1,5,300);
-    omegaRange = linspace(15,35,200);
+    F=[1;0];
+%     lambdaRange = linspace(0.1,5,300);
+%     omegaRange = linspace(15,35,200);
+    lambdaRange = logspace(log10(0.001),log10(5),500);
+    omegaRange = logspace(log10(15),log10(27),500);
     
     M = [
       mPrime(floor,mode), 0;
@@ -218,7 +220,7 @@ if (sweep == 1)
     
     figure();
     
-    surf(omegaRange, lambdaRange, Ampl(:,:,2));
+    surf(omegaRange, log10(lambdaRange), log10(Ampl(:,:,2)));
     title('absorber');
     xlabel('angular frequency');
     ylabel('lambda');
@@ -226,7 +228,7 @@ if (sweep == 1)
     
     figure();
     
-    surf(omegaRange, lambdaRange, Ampl(:,:,1));
+    surf(omegaRange, log10(lambdaRange), log10(Ampl(:,:,1)));
     title('floor');
     xlabel('angular frequency');
     ylabel('lambda');
