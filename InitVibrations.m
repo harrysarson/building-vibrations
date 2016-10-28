@@ -14,8 +14,8 @@ kc = (24*E*I)/(L*L*L); % static stiffness for each floor
 
     absorberMass = 0.1;
 
-equivilentFloorDampingRange = linspace(0, 50, 100);
-absorberDampingRange = logspace(-2, 1, 100);
+equivilentFloorDampingRange = linspace(0, 10, 150);
+absorberDampingRange = logspace(-1.5, 1, 150);
 
 drivingForce = [
     1;
@@ -54,4 +54,4 @@ K = kc * K;
 
 %% Specific floor and mode to analyze in AnalyseVibrations
 floor = 2;
-mode = 1;
+mode = 3;
