@@ -22,12 +22,12 @@ modeshapes = V;
 % each natural frequency
 mPrime = zeros(N,N);
     kPrime = zeros(N,N);
-for mode = 1:N
-    modeshape = modeshapes(:,mode);
-    for floor = 1:N
-        mPrime(floor,mode) = m * norm(modeshape)^2/(modeshape(floor)^2);
+for imode = 1:N
+    modeshape = modeshapes(:,imode);
+    for ifloor = 1:N
+        mPrime(ifloor,imode) = m * norm(modeshape)^2/(modeshape(ifloor)^2);
     end
-    kPrime(:,mode) = mPrime(:,mode) * freqs(mode)^2;
+    kPrime(:,imode) = mPrime(:,imode) * freqs(imode)^2;
 end
 
 

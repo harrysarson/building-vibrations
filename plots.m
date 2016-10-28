@@ -36,7 +36,7 @@ end
 
 if (1)
     figure();
-    plot(equivilentFloorDampingRange, ratio);
+    plot(equivilentFloorDampingRange, 1-ratio);
     title('max absorber efficiency for given floor damping');
     xlabel('floor lambda');
     ylabel('min amplitude / max amplitude');
