@@ -55,3 +55,5 @@ K = kc * K;
 %% Specific floor and mode to analyze in AnalyseVibrations
 floor = 2;
 mode = 1;
+
+printSweep = 20;

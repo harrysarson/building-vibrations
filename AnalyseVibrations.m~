@@ -58,14 +58,14 @@ for sweepNumber = 1:length(equivilentFloorDampingRange);
     
         
         figure();
-        surf(hertzRange, absorberDampingRange, Ampl(:,:,1));
+        surf(herzRange, lambdaRange, Ampl(:,:,1));
         
         set(gca, 'XScale', 'log', 'YScale', 'log', 'ZScale', 'log')
         
-        title(strcat('building vibration amplitudes, equivlent damping = ', int2str(equivilentFloorDampingRange(sweepNumber))));
+        title('building vibration amplitudes, equivlent damping = ');
         xlabel('frequency (Hz)');
-        ylabel('Absorber Stiffnses (Ns/m');
-        zlabel('amplitude');
+        ylabel('log10(lambda)');
+        zlabel('log10(amplitude');
         shading interp;
         
         
