@@ -59,7 +59,9 @@ if (redoCalculations == 1)
     end
 
     K = K * kc;
-
+    
+    naturalFrequency = sqrt(kc/m);
+    
     blank_row = zeros(1,N);
     blank_col = zeros(N,1);
 
@@ -163,18 +165,18 @@ end
 sweep = 1;
 lambdaSweep = 1;
 
-lambdaMin = 0.08;
-lambdaMax = 1;
+lambdaMin = 0.01;
+lambdaMax = 10;
 lambdaLength = 100;
 
-omegaMin = 19;
-omegaMax = 24;
+omegaMin = 15;
+omegaMax = 28;
 omegaLength = 100;
 
 if (lambdaSweep == 1)
     floorLambdaMin = 0.01;
-    floorLambdaMax = 400;
-    floorLambdaLength = 60;
+    floorLambdaMax = 50;
+    floorLambdaLength = 100;
     lambdaFloor = linspace(floorLambdaMin, floorLambdaMax, floorLambdaLength);
 else
     floorLambdaLength = 1;
@@ -282,11 +284,13 @@ shading interp;
 
 optimalAbsorber = zeros(floorLambdaLength,1);
 minAmplitude = zeros(floorLambdaLength,1);
-index = zeros(floorLambdaLength,1);
-for absorberLambda = 1:floorLambdaLength
-    minAmplitude(absorberLambda) = min(maxAmplitudes(:,absorberLambda));
-    index(absorberLambda) = find(maxAmplitudes(:,absorberLambda)==minAmplitude(absorberLambda),1);
-    optimalAbsorber(absorberLambda) = lambdaRange(index(absorberLambda));
+maxAmplitude = zeros(floorLambdaLength,1);
+ratio = zeros(floorLambdaLength,1);
+for i = 1:floorLambdaLength
+    minAmplitude(i) = min(maxAmplitudes(:,i));
+    maxAmplitude(i) = max(maxAmplitudes(:,i));
+    ratio(i) = minAmplitude(i)/maxAmplitude(i);
+    optimalAbsorber(i) = lambdaRange(find(maxAmplitudes(:,i)==minAmplitude(i),1));
 end
 
 if (1)
@@ -294,16 +298,15 @@ if (1)
     plot(lambdaFloor, log10(minAmplitude));
     title('min floor amplitude for different floor lambdas');
     xlabel('floor lambda');
-    ylabel('floor amplitude');
+    ylabel('log10(floor amplitude)');
 end
 
-
-if(1)
+if (1)
     figure();
-    plot(lambdaFloor, index);
-    title('optimal absorber sample position for different floor lambdas');
+    plot(lambdaFloor, ratio);
+    title('ratio of min and max amplitudes over floor lambda range');
     xlabel('floor lambda');
-    ylabel('optimal absorber damping index');
+    ylabel('min amplitude/max amplitude');
 end
 
 if (1)
