@@ -12,8 +12,7 @@ maxAmplitudes = zeros(length(absorberDampingRange), length(equivilentFloorDampin
 
 Ampl = zeros(length(equivilentFloorDampingRange), length(absorberDampingRange), 2);
 
-%hertzRange = logspace(log10(hertz(mode) + 10), log10(hertz(mode) + 10), 200);
-hertzRange = logspace(log10(12), log10(15), 400);
+hertzRange = logspace(log10(max(0, hertz(mode) - 3)), log10(hertz(mode) + 3), 200);
 
 
 for sweepNumber = 1:length(equivilentFloorDampingRange);
