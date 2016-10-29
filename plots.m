@@ -5,11 +5,15 @@ close all
 clear ~ll
 
 figure();
-surf(equivilentFloorDampingRange, log10(absorberDampingRange), log10(maxAmplitudes));
-title('Max amplitudes of floor');
-xlabel('floor lambda');
-ylabel('log10(absorber lambda)');
-zlabel('log10(amplitude)');
+% for color parameter logged values of amplitude are used so that color
+% changes throughout range of z-values.
+surf(equivilentFloorDampingRange, absorberDampingRange, maxAmplitudes, log10(maxAmplitudes));
+set(gca, 'YScale', 'log', 'ZScale', 'log')
+
+title('Max amplitudes of building vibrations');
+xlabel('equivilent stiffness of building (Ns/m)');
+ylabel('stiffness of absorber (Ns/m)');
+zlabel('normalised amplitude');
 shading interp;
 
 
@@ -26,7 +30,7 @@ for i = 1:length(equivilentFloorDampingRange)
 
 end
 
-if (1)
+if (0)
     figure();
     plot(equivilentFloorDampingRange, minAmplitude);
     title('min floor amplitude for different floor lambdas');
@@ -34,7 +38,7 @@ if (1)
     ylabel('floor amplitude');
 end
 
-if (1)
+if (0)
     figure();
     plot(equivilentFloorDampingRange, 1-ratio);
     title('max absorber efficiency for given floor damping');
@@ -42,7 +46,7 @@ if (1)
     ylabel('min amplitude / max amplitude');
 end
 
-if (1)
+if (0)
     figure();
     plot(equivilentFloorDampingRange, optimalAbsorberDamping);
     title('optimal absorber for different floor lambdas');

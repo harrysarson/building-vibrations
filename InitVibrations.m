@@ -53,5 +53,5 @@ end
 K = kc * K;
 
 %% Specific floor and mode to analyze in AnalyseVibrations
-floor = 2;
-mode = 3;
+floor = 1;
+mode = 2;
