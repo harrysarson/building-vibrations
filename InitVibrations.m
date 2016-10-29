@@ -12,10 +12,10 @@ d = 0.001; % thickness
 I = b*d*d*d/12; % second moment of area
 kc = (24*E*I)/(L*L*L); % static stiffness for each floor
 
-    absorberMass = 0.1;
+    absorberMass = 0.05;
 
-equivilentFloorDampingRange = linspace(0, 10, 150);
-absorberDampingRange = logspace(-1.5, 1, 150);
+equivilentFloorDampingRange = linspace(0, 10, 101);
+absorberDampingRange = logspace(-1.5, 1, 100);
 
 drivingForce = [
     1;
@@ -56,4 +56,4 @@ K = kc * K;
 floor = 1;
 mode = 2;
 
-printSweep = 20;
+printSweep = 6;

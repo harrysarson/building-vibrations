@@ -10,9 +10,10 @@
 absorberStiffness = absorberMass * freqs(mode)^2;
 maxAmplitudes = zeros(length(absorberDampingRange), length(equivilentFloorDampingRange));
 
-Ampl = zeros(length(equivilentFloorDampingRange), length(absorberDampingRange), 2);
 
 hertzRange = logspace(log10(max(0, hertz(mode) - 3)), log10(hertz(mode) + 3), 200);
+
+Ampl = zeros(length(absorberDampingRange), length(hertzRange), 2);
 
 disp(['Sweeping frequencies about the natural frequency of ', num2str(hertz(mode)), 'Hz in range of ',...
     num2str(hertzRange(1)), 'Hz to ',num2str(hertzRange(end)), + 'Hz']);
@@ -60,11 +61,12 @@ for sweepNumber = 1:length(equivilentFloorDampingRange);
     
         
         figure();
-        surf(hertzRange, absorberDampingRange, Ampl(:,:,1));
+        surf(hertzRange, absorberDampingRange, Ampl(:,:,1), log10(Ampl(:,:,1)));
         
-        set(gca, 'XScale', 'log', 'YScale', 'log', 'ZScale', 'log')
+        set(gca, 'YScale', 'log', 'ZScale', 'log')
         
-        title(strcat('building vibration amplitudes, equivlent damping = ', int2str(equivilentFloorDampingRange(sweepNumber))));
+        title(['building vibration amplitudes, equivilent damping = ' ...
+            num2str(equivilentFloorDampingRange(sweepNumber)) 'Ns/m']);
         xlabel('frequency (Hz)');
         ylabel('Absorber Stiffnses (Ns/m');
         zlabel('amplitude');
