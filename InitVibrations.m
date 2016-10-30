@@ -12,7 +12,7 @@ d = 0.001; % thickness
 I = b*d*d*d/12; % second moment of area
 kc = (24*E*I)/(L*L*L); % static stiffness for each floor
 
-    absorberMass = 0.05;
+    absorberMass = 0.2;
 
 equivilentFloorDampingRange = linspace(0, 10, 101);
 absorberDampingRange = logspace(-1.5, 1, 100);
