@@ -4,23 +4,34 @@
 close all
 clear ~ll
 
-figure();
-% for color parameter logged values of amplitude are used so that color
-% changes throughout range of z-values.
-surf(equivilentFloorDampingRange, absorberDampingRange, maxAmplitudes, log10(maxAmplitudes));
-set(gca, 'YScale', 'log', 'ZScale', 'log')
 
-title('Max amplitudes of building vibrations');
-xlabel('equivilent stiffness of building (Ns/m)');
-ylabel('stiffness of absorber (Ns/m)');
-zlabel('normalised amplitude');
-shading interp;
+if 0 
+    figure();
+    % for color parameter logged values of amplitude are used so that color
+    % changes throughout range of z-values.
+    surf(equivilentFloorDampingRange, absorberDampingRange, maxAmplitudes, log10(maxAmplitudes));
+    set(gca, 'YScale', 'log', 'ZScale', 'log')
+    title('Max amplitudes of building vibrations');
+    xlabel('equivilent stiffness of building (Ns/m)');
+    ylabel('stiffness of absorber (Ns/m)');
+    zlabel('normalised amplitude');
+    shading interp;
+end
 
+if (1)
+    equivilentFloorDampingIndex = 6;
+    figure();
+    loglog(absorberDampingRange, maxAmplitudes(:, equivilentFloorDampingIndex));
+    title('Amplitude of vibrations at resonance');
+    xlabel('Absorber damping (Ns/m)');
+    ylabel('Normalised amplitude');
+end
 
 optimalAbsorberDamping = zeros(length(equivilentFloorDampingRange),1);
 minAmplitude = zeros(length(equivilentFloorDampingRange),1);
 maxAmplitude = zeros(length(equivilentFloorDampingRange),1);
 ratio = zeros(length(equivilentFloorDampingRange),1);
+
 for i = 1:length(equivilentFloorDampingRange)
 
     minAmplitude(i) = min(maxAmplitudes(:,i));
