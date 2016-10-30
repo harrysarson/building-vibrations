@@ -56,22 +56,8 @@ for sweepNumber = 1:length(equivilentFloorDampingRange);
         maxAmplitudes(i, sweepNumber) = max(Ampl(i,:,1));
     end
     
-    if(printSweep == sweepNumber)
         
-        plotAmpls(:, :, 4) = Ampl(:, :, 1);
+    plotAmpls(:, :, sweepNumber) = Ampl(:, :, 1);
         
-        if(0)
-            figure();
-            surf(hertzRange, absorberDampingRange, Ampl(:,:,1), log10(Ampl(:,:,1)));
-
-            set(gca, 'YScale', 'log', 'ZScale', 'log')
-
-            title('Normalised Vibration Amplitudes');
-            xlabel('frequency (Hz)');
-            ylabel('Absorber Damping (Ns/m');
-            zlabel('amplitude');
-            shading interp;
-        end
         
-    end
 end
