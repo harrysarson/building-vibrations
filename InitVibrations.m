@@ -14,7 +14,11 @@ kc = (24*E*I)/(L*L*L); % static stiffness for each floor
 
 absorberMass = 0.1;
 
+<<<<<<< HEAD
 equivilentFloorDampingRange = [0, 0.5, 1, 1.5]; %linspace(0, 10, 101);
+=======
+equivilentFloorDampingRange = 2; %linspace(0, 10, 101);
+>>>>>>> cc53386... floor graphs now good, watch out for all graphs that are wrong but still around
 absorberDampingRange = logspace(-2, 3, 200);
 
 drivingForce = [
@@ -53,6 +57,11 @@ end
 K = kc * K;
 
 %% Specific floor and mode to analyze in AnalyseVibrations
+<<<<<<< HEAD
 floor = 1;
 mode = 2;
+=======
+floor = 3;
+mode = 1;
+>>>>>>> cc53386... floor graphs now good, watch out for all graphs that are wrong but still around
 
